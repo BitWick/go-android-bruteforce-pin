@@ -25,61 +25,25 @@ func main() {
 
 	keyMap := make(map[string]Pos)
 
-	keyMap["0"] = Pos{
-		X: 5000,
-		Y: 7500,
-	}
-	keyMap["1"] = Pos{
-		X: 2000,
-		Y: 4000,
-	}
-	keyMap["2"] = Pos{
-		X: 5000,
-		Y: 4000,
-	}
-	keyMap["3"] = Pos{
-		X: 8000,
-		Y: 4000,
-	}
-	keyMap["4"] = Pos{
-		X: 2000,
-		Y: 5500,
-	}
-	keyMap["5"] = Pos{
-		X: 5000,
-		Y: 5500,
-	}
-	keyMap["6"] = Pos{
-		X: 8000,
-		Y: 5500,
-	}
-	keyMap["7"] = Pos{
-		X: 2000,
-		Y: 6500,
-	}
-	keyMap["8"] = Pos{
-		X: 5000,
-		Y: 6500,
-	}
-	keyMap["9"] = Pos{
-		X: 8000,
-		Y: 6500,
-	}
-	keyMap["C"] = Pos{
-		X: 8000,
-		Y: 7850,
-	}
-	keyMap["P"] = Pos{
-		X: 2000,
-		Y: 5500,
-	}
+	keyMap["0"] = Pos{X: 5000, Y: 7500}
+	keyMap["1"] = Pos{X: 2000, Y: 4000}
+	keyMap["2"] = Pos{X: 5000, Y: 4000}
+	keyMap["3"] = Pos{X: 8000, Y: 4000}
+	keyMap["4"] = Pos{X: 2000, Y: 5500}
+	keyMap["5"] = Pos{X: 5000, Y: 5500}
+	keyMap["6"] = Pos{X: 8000, Y: 5500}
+	keyMap["7"] = Pos{X: 2000, Y: 6500}
+	keyMap["8"] = Pos{X: 5000, Y: 6500}
+	keyMap["9"] = Pos{X: 8000, Y: 6500}
+	keyMap["C"] = Pos{X: 8000, Y: 7850}
+	keyMap["P"] = Pos{X: 2000, Y: 5500}
 
 	devices, err := accessory.GetDevices(2)
 	if err != nil {
 		logger.Fatalln(err)
 	}
 	if len(devices) > 0 {
-		logger.Println("Found Android HID device:" + devices[0].Manufacturer)
+		logger.Println("Found Android HID device: " + devices[0].Manufacturer)
 	} else {
 		logger.Println("Did not find any HID device")
 		os.Exit(0)
@@ -104,7 +68,6 @@ func main() {
 	pins = utils.Reverse(pins)
 
 	pinStack := utils.Stack{}
-
 	for _, pin := range pins {
 		pinStack.Push(pin)
 	}
@@ -112,8 +75,7 @@ func main() {
 	time.Sleep(2 * time.Second)
 
 	for !pinStack.IsEmpty() {
-
-		// Position over item (e.g. Usb debugging) and double tap to get to keypad
+		// Position over item (e.g. USB debugging) and double-tap to get to keypad
 		x := 5000
 		y := 6000
 		touchscreen.SetPosition(int16(x), int16(y))
@@ -135,7 +97,6 @@ func main() {
 				touchscreen.SetPosition(keyMap[string(input)].X, keyMap[string(input)].Y) // Some syncing issue
 				time.Sleep(50 * time.Millisecond)
 				touchscreen.Press()
-
 			}
 			counter++
 			time.Sleep(1000 * time.Millisecond)
@@ -148,7 +109,6 @@ func main() {
 				touchscreen.Press()
 				break
 			}
-
 		}
 		endTime := time.Now()
 		diff := endTime.Sub(startTime)
@@ -157,5 +117,4 @@ func main() {
 			time.Sleep(31 * time.Second)
 		}
 	}
-
 }
